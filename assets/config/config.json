@@ -1,0 +1,14 @@
+{
+    "name": "House API",
+    "version": "4.1.4",
+    "secure": false,
+    "cert": "",
+    "key": "",
+    "autobuy_key": "",
+    "database":{
+        "username": "filegone",
+        "password": "",
+        "database": "",
+        "host": ""
+    }
+}

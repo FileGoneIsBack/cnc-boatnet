@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Name}} | {{.Title}}</title>
+    <link rel="stylesheet" href="/_assets/new/css/dash.css">
+    <link rel="stylesheet" href="/_assets/new/css/account.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/_assets/new/imports/toastr1.js"></script>
+    <script src="/_assets/new/js/nav1.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        {{ template "nav.html" . }}
+        <main class="main-content">
+            <div class="account-header">
+                <h1>Account Settings</h1>
+                <div class="account-status">
+                    <span class="status-dot"></span>
+                    Premium Member
+                </div>
+            </div>
+
+            <div class="account-grid">
+                <!-- Account Overview -->
+                <div class="account-card overview-card">
+                    <div class="card-header">
+                        <h2>Account Overview</h2>
+                    </div>
+                    <div class="account-info">
+                        <div class="info-group">
+                            <label>Username</label>
+                            <div class="info-value" id="username">–</div>
+                          </div>
+                          <div class="info-group">
+                            <label>Membership</label>
+                            <div class="info-value" id="membership">–</div>
+                          </div>
+                          <div class="info-group">
+                            <label>Balance</label>
+                            <div class="info-value" id="balance">–</div>
+                          </div>
+                          <div class="info-group">
+                            <label>Expiry</label>
+                            <div class="info-value" id="expiry">–</div>
+                          </div>
+                    </div>
+                </div>
+
+                <!-- Usage Limits -->
+                <div class="account-card limits-card">
+                    <div class="card-header">
+                        <h2>Usage Limits</h2>
+                    </div>
+                    <div class="limits-grid">
+                        <div class="limit-item">
+                            <div class="limit-info">
+                              <label>Concurrent Limit</label>
+                              <div class="limit-value" id="concurrent-limit">–</div>
+                            </div>
+                            <div class="limit-bar">
+                              <div class="limit-progress" id="concurrent-bar"></div>
+                            </div>
+                          </div>
+                          <div class="limit-item">
+                            <div class="limit-info">
+                              <label>Max Time (seconds)</label>
+                              <div class="limit-value" id="max-time">–</div>
+                            </div>
+                            <div class="limit-bar">
+                              <div class="limit-progress" id="time-bar"></div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="account-card security-card">
+                    <div class="card-header">
+                        <h2>Security Settings</h2>
+                    </div>
+                    <form class="security-form" id="passwordForm">
+                        <div class="form-group">
+                          <label>Current Password</label>
+                          <div class="input-wrapper">
+                            <input type="password" name="currentPassword" required>
+                            <button type="button" class="toggle-visibility">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>New Password</label>
+                          <div class="input-wrapper">
+                            <input type="password" name="newPassword" required>
+                            <button type="button" class="toggle-visibility">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Confirm New Password</label>
+                          <div class="input-wrapper">
+                            <input type="password" name="confirmPassword" required>
+                            <button type="button" class="toggle-visibility">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <button type="submit" class="update-button">Update Password</button>
+                      </form>
+                </div>
+
+                <!-- Permissions -->
+                <div class="account-card perms-card">
+                    <div class="card-header">
+                        <h2>Permissions</h2>
+                    </div>
+                    <div class="perms-grid">
+                        {{if hasPerm "api" }}
+                        <div class="perm-item active">
+                            <span class="perm-name">API Access</span>
+                             <span class="perm-status">Enabled</span>
+                        </div>
+                        {{ else }}
+                        <div class="perm-item">
+                            <span class="perm-name">API Access</span>
+                             <span class="perm-status">Disabled</span>
+                        </div>
+                        {{ end }}
+                        {{if hasPerm "vip" }}
+                        <div class="perm-item active">
+                            <span class="perm-name">Premium Methods</span>
+                             <span class="perm-status">Enabled</span>
+                        </div>
+                        {{ else }}
+                        <div class="perm-item">
+                            <span class="perm-name">Premium Methods</span>
+                             <span class="perm-status">Disabled</span>
+                        </div>
+                        {{ end }}
+                        {{if hasPerm "admin" }}
+                        <div class="perm-item active">
+                            <span class="perm-name">Admin Panel</span>
+                             <span class="perm-status">Enabled</span>
+                        </div>
+                        {{ else }}
+                        <div class="perm-item">
+                            <span class="perm-name">Admin Panel</span>
+                             <span class="perm-status">Disabled</span>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // map numeric plan → label
+          const planNames = {
+            1: 'Free Member',
+            2: 'Bronze Member',
+            3: 'Silver Member',
+            4: 'Gold Member',
+            5: 'Premium Member'
+          };
+        
+          // format a UNIX timestamp (seconds) → "Month D, YYYY"
+          function niceDate(ts) {
+            const d = new Date(ts * 1000);
+            return d.toLocaleDateString('en-US', {
+              month: 'long',
+              day:   'numeric',
+              year:  'numeric'
+            });
+          }
+        
+          function updateAccount(data) {
+            const u = data.userInfo;
+        
+            // Overview
+            document.getElementById('username').textContent   = u.username;
+            document.getElementById('membership').textContent = planNames[u.membership] || 'Member';
+            document.getElementById('balance').textContent    = '$' + u.balance.toFixed(2);
+            document.getElementById('expiry').textContent     = niceDate(u.membership_expire);
+        
+            // Limits
+            // (assuming "concurrents" is your max slots and "maxboot" is max seconds)
+            // and that you’re showing “used/total”. If you track used values too,
+            // just swap in u.usedConcurrents, u.usedBootTime, etc.
+            const usedCon  = data.currentConcurrents || 0;
+            const usedTime = data.currentBootTime    || 0;
+        
+            const maxCon  = u.concurrents;
+            const maxTime = u.maxboot;
+        
+            document.getElementById('concurrent-limit').textContent = 
+              `${usedCon}/${maxCon}`;
+            document.getElementById('max-time').textContent = 
+              `${usedTime}/${maxTime}`;
+        
+            // update bars
+            document.getElementById('concurrent-bar').style.width =
+              ((usedCon / maxCon) * 100 || 0) + '%';
+            document.getElementById('time-bar').style.width =
+              ((usedTime / maxTime) * 100 || 0) + '%';
+          }
+        
+          // initial fetch + every 2s
+          function fetchAndUpdate() {
+            fetch('/api/dashboard/data', { method: 'POST' })
+              .then(res => res.json())
+              .then(json => updateAccount(json))
+              .catch(err => console.error('Failed to load account data', err));
+          }
+        
+          fetchAndUpdate();
+          setInterval(fetchAndUpdate, 2000);
+        });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const passwordForm = document.getElementById('passwordForm');
+              const ENDPOINT = '/api/account/password'; // ← replace when you decide
+            
+              passwordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+            
+                // grab values
+                const oldPass = passwordForm.currentPassword.value.trim();
+                const newPass = passwordForm.newPassword.value.trim();
+                const confirm = passwordForm.confirmPassword.value.trim();
+            
+                // basic client-side validation
+                if (newPass !== confirm) {
+                  showToast('New passwords do not match', 'error');
+                  return;
+                }
+                if (newPass.length < 8) {
+                  showToast('Password must be at least 8 characters', 'error');
+                  return;
+                }
+            
+                // send to backend
+                try {
+                  const res = await fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      oldPassword: oldPass,
+                      newPassword: newPass
+                    })
+                  });
+            
+                  const payload = await res.json();
+                  if (!res.ok) {
+                    // assume { error: "…" }
+                    showToast(payload.error || 'Update failed', 'error');
+                  } else {
+                    showToast('Password updated successfully', 'success');
+                    passwordForm.reset();
+                  }
+                } catch (err) {
+                  console.error(err);
+                  showToast('Network error', 'error');
+                }
+              });
+            });
+            </script>
+</body>
+</html>

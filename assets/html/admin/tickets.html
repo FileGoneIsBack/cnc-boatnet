@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Name}} | {{.Title}}</title>
+    <link rel="stylesheet" href="/_assets/new/css/dash.css">
+    <link rel="stylesheet" href="/_assets/new/css/admin/tickets.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/_assets/new/imports/toastr1.js"></script>
+    <script src="/_assets/new/js/nav1.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        {{ template "nav.html" . }}
+
+        <main class="main-content">
+            <div class="admin-header">
+                <h1>Ticket Manager</h1>
+                <div class="ticket-metrics">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-value">24</span>
+                            <span class="metric-label">New Tickets</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-value">12</span>
+                            <span class="metric-label">Pending</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon success">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-value">89%</span>
+                            <span class="metric-label">Resolution Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-filters">
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" placeholder="Search tickets...">
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="open">Open</option>
+                        <option value="pending">Pending</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="all">All Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tickets-table-container">
+                <table class="tickets-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket #</th>
+                            <th>User</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn" disabled>&laquo;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">&raquo;</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function() {
+            loadTickets();
+        
+            function loadTickets() {
+                $.post('/api/admin/allTickets', function(response) {
+                    const data = $.parseJSON(response);
+                    if (data.tickets && Array.isArray(data.tickets)) {
+                        renderTickets(data.tickets);
+                    } else {
+                        toastr['error']('No tickets found.', 'Error', { "toastClass": "toast-dark" });
+                    }
+                }).fail(handleErrors);
+            }
+        
+            function renderTickets(tickets) {
+                const tableBody = document.querySelector('.tickets-table tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+        
+                tickets.forEach(ticket => {
+                    const row = document.createElement('tr');
+        
+                    const statusClass = ticket.status.toLowerCase();
+                    const statusBadge = `<span class="status-badge ${statusClass}">${capitalize(ticket.status)}</span>`;
+        
+                    const formattedDate = new Date(ticket.date * 1000).toLocaleString();
+        
+                    row.innerHTML = `
+                        <td>#${ticket.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <span>${ticket.username}</span>
+                            </div>
+                        </td>
+                        <td>${ticket.title}</td>
+                        <td>${statusBadge}</td>
+                        <td>${formattedDate}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view" data-id="${ticket.id}" data-title="${ticket.title}" data-status="${ticket.status}">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                                    <button class="action-btn edit">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                    </button>
+                            </div>
+                        </td>
+                    `;
+        
+                    tableBody.appendChild(row);
+                });
+        
+                // Attach click listeners to all view buttons
+                document.querySelectorAll('.action-btn.view').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const title = encodeURIComponent(btn.getAttribute('data-title'));
+                        const status = btn.getAttribute('data-status');
+        
+                        document.cookie = `ticket_id=${id}; path=/`;
+                        document.cookie = `ticket_name=${title}; path=/`;
+                        document.cookie = `ticket_status=${status}; path=/`;
+        
+                        window.location.href = `/admin/chats?id=${id}`;
+                    });
+                });
+            }
+        
+            function handleErrors(xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                toastr['error']('Failed to load tickets', 'Error', { "toastClass": "toast-dark" });
+            }
+        
+            function capitalize(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+        })();
+        </script>
+</body>
+</html>

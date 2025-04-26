@@ -1,0 +1,112 @@
+{
+ "plans": {
+        "API Monthly #1": {
+            "duration": 120,
+            "concurrents": 1,
+            "api": true,
+            "vip": true,
+            "expiry": 31,
+            "price": 20,
+            "fiat": "USD"
+        },
+        "API Monthly #2": {
+            "duration": 300,
+            "concurrents": 2,
+            "api": true,
+            "vip": true,
+            "expiry": 31,
+            "price": 45,
+            "fiat": "USD"
+        },
+        "API Monthly #3": {
+            "duration": 500,
+            "concurrents": 4,
+            "api": true,
+            "vip": false,
+            "expiry": 31,
+            "price": 70,
+            "fiat": "USD"
+                    },
+        "Monthly #1": {
+            "duration": 120,
+            "concurrents": 2,
+            "api": false,
+            "vip": false,
+            "expiry": 31,
+            "price": 15,
+            "fiat": "USD"
+                    },
+        "Monthly #2": {
+            "duration": 200,
+            "concurrents": 3,
+            "api": false,
+            "vip": false,
+            "expiry": 31,
+            "price": 40,
+            "fiat": "USD"
+                    },
+        "Monthly #3": {
+            "duration": 300,
+            "concurrents": 4,
+            "api": false,
+            "vip": false,
+            "expiry": 31,
+            "price": 65,
+            "fiat": "USD"
+                    },
+        "HH Monthly #1": {
+            "duration": 54000,
+            "concurrents": 1,
+            "api": false,
+            "vip": false,
+            "expiry": 31,
+            "price": 25,
+            "fiat": "USD"
+        }
+    },
+    "addons": {
+        "api":{
+            "price":20,
+            "fiat":"USD",
+            "upgrade":"api",
+            "text":"Unlock API Access",
+            "value":1,
+            "expiry":31
+            ,"type":"rank"
+        },
+        "vip":{
+            "price":20,
+            "fiat":"USD",
+            "upgrade":"vip",
+            "text":"Unlock VIP Access",
+            "value":1,
+            "expiry":31,
+            "type":"rank"
+        },
+        "time":{
+            "price":10,
+            "fiat":"USD",
+            "upgrade":"time",
+            "text":"Add 100 Sec too plan",
+            "value":100,
+            "expiry":31,
+            "type":"time"
+        },
+        "concurrents":{
+            "price":10,
+            "fiat":"USD",
+            "upgrade":"time",
+            "text":"Add 1 Conn to plan",
+            "value":1,
+            "expiry":31,
+            "type":"concurrents"
+        }
+    },
+    "limits":{
+        "concurrents":5,
+        "duration":1200,
+        "api":1,
+        "vip":1,
+        "cnc":1
+    }
+}

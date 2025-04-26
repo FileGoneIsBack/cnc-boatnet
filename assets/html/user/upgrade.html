@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Name}} | {{.Title}}</title>
+    <link rel="stylesheet" href="/_assets/new/css/dash.css">
+    <link rel="stylesheet" href="/_assets/new/css/shop.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/_assets/new/imports/toastr.js"></script>
+    <script src="/_assets/new/js/nav1.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        {{ template "nav.html" . }}
+        <main class="main-content">
+            <h1></h1>
+            <!-- Toggle buttons will be inserted here -->
+            <div class="plans-grid">
+                <!-- Plan cards will be dynamically inserted here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="/_assets/new/js/user/shop/shop5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

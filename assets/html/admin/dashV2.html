@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Name}} | {{.Title}}</title>
+    <link rel="stylesheet" href="/_assets/new/css/dash.css">
+    <link rel="stylesheet" href="/_assets/new/css/admin/dash.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/_assets/new/imports/toastr1.js"></script>
+    <script src="/_assets/new/js/nav1.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Previous nav code remains unchanged -->
+        {{ template "nav.html" . }}
+        <main class="main-content">
+            <h1>Admin Dashboard</h1>
+
+            <div class="admin-grid">
+                <div class="chart-container">
+                    <canvas id="attacksChart"></canvas>
+                </div>
+                <div class="stats-stack">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20v-6M6 20V10M18 20V4"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Servers</h3>
+                            <div class="stat-value">{{.ServersCount}}</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Users</h3>
+                            <div class="stat-value">{{.Users}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server Section -->
+            <div class="server-section">
+                <div class="server-header">
+                    <h2>Server Management</h2>
+                    <div class="server-toggle">
+                        <button class="toggle-btn active" data-type="all">All Servers</button>
+                        <button class="toggle-btn" data-type="api">API Servers</button>
+                        <button class="toggle-btn" data-type="attack">Attack Servers</button>
+                    </div>
+                </div>
+
+                <div class="server-grid">
+                    <!-- Server cards will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <div class="news-section">
+                <h2>Manage News Updates</h2>
+                <form class="news-form" id="newsForm">
+                    <input type="text" class="news-input" placeholder="News Title" required>
+                    <textarea class="news-input news-textarea" placeholder="News Content" required></textarea>
+                    <button type="submit" class="news-submit">Post Update</button>
+                </form>
+
+                <div id="news-timeline" class="news-list">
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/_assets/new/js/admin/dash2.js"></script>
+</body>
+</html>

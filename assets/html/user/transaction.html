@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Name}} | {{.Title}}</title>
+    <link rel="stylesheet" href="/_assets/new/css/dash.css">
+    <link rel="stylesheet" href="/_assets/new/css/forms.css">
+    <link rel="stylesheet" href="/_assets/new/css/transaction.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/_assets/new/imports/toastr.js"></script>
+    <script src="/_assets/new/js/nav1.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        {{ template "nav.html" . }}
+        <main class="main-content">
+            <div class="transaction-header">
+                <h1>Payment Details</h1>
+                <button class="print-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Print Invoice
+                </button>
+            </div>
+            
+            <div class="transaction-container">
+                <div class="transaction-card">
+                    <div class="transaction-status">
+                        <div class="status-badge pending">Pending Payment</div>
+                        <div class="transaction-date">Expires in: <span class="expire-countdown"></span></div>
+                    </div>
+
+                    <div class="transaction-details">
+                        <div class="detail-row">
+                            <div class="detail-label">Bitcoin Address</div>
+                            <div class="detail-value address" id="btcAddress">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Amount (USD)</div>
+                            <div class="detail-value highlight">$500.00</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Amount (BTC)</div>
+                            <div class="detail-value">0.0116 BTC</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">Waiting for payment (0/3 confirmations)</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Created</div>
+                            <div class="detail-value">March 15, 2024 14:30 UTC</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Expires</div>
+                            <div class="detail-value">March 15, 2024 14:45 UTC</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transaction-card qr-card">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" alt="Bitcoin QR Code" class="qr-code">
+                    <div class="qr-label">Scan QR code to pay</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/_assets/new/js/user/shop/transaction.js"></script>
+</body>
+</html>
